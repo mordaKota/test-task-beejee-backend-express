@@ -14,12 +14,25 @@ export class TaskController {
     this.taskRepository = appDataSource.getRepository(Task);
   }
 
-  create(createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  async create(createTaskDto: CreateTaskDto) {
+    try {
+      const taskId = await this.taskService.create(createTaskDto);
+      return this.taskService.findOne(taskId);
+    } catch (err) {
+      // console.error(err);
+      throw err;
+    }
   }
 
   findAll() {
     return this.taskService.findAll();
+  }
+
+  async paginate(query: any) {
+    return Promise.all([
+      this.taskService.paginate(query.filter, query.limits, query.sorting),
+      this.taskService.count(query.filter),
+    ]);
   }
 
   findOne(id: string) {

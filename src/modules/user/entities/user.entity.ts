@@ -1,6 +1,7 @@
 import {Exclude} from "class-transformer";
-import {Column, Entity, PrimaryGeneratedColumn,} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn,} from 'typeorm';
 import {IsEmail, IsString, IsUUID} from "class-validator";
+import {Task} from "../../task/entities/task.entity";
 
 @Entity()
 export class User {
@@ -24,7 +25,10 @@ export class User {
   @Exclude()
   password: string;
 
-  @Column()
+  @Column({ default: false })
   @Exclude()
   isAdmin: boolean;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[]
 }

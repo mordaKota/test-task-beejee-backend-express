@@ -1,11 +1,11 @@
-import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import appDataSource from "./config/database";
+import App from "./app";
+import * as http from "http";
 
 dotenv.config();
 
-const index: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 appDataSource
   .initialize()
@@ -16,10 +16,10 @@ appDataSource
     console.error("Error during Data Source initialization:", err)
   });
 
-index.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
-
-index.listen(port, () => {
+App.set("port", port);
+const server = http.createServer(App);
+server.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-});
+})
+
+module.exports = App;

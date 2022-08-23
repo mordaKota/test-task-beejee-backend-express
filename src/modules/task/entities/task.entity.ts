@@ -1,6 +1,8 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../../user/entities/user.entity";
 import {IsBoolean, IsEmail, IsString, IsUUID} from "class-validator";
+import {Col} from "sequelize/types/utils";
+import {Exclude} from "class-transformer";
 
 @Entity()
 export class Task {
@@ -12,19 +14,19 @@ export class Task {
   @IsUUID('4')
   id: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   @IsString()
-  @OneToOne(type => User, user => user.login)
-  username: string;
+  @Exclude()
+  userId: string | null;
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  @JoinColumn({name: 'userId'})
+  user?: User;
+
 
   @Column()
-  @IsEmail()
-  @OneToOne(type => User, user => user.email)
-  email: string;
-
-  @Column()
   @IsString()
-  text: string;
+  text!: string;
 
   @Column()
   @IsBoolean()

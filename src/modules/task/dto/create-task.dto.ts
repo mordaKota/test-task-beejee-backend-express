@@ -1,12 +1,15 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import {IsNotEmpty, IsOptional, IsString} from "class-validator";
 
 export class CreateTaskDto {
+  constructor(partial: Partial<CreateTaskDto>) {
+    Object.assign(this, partial)
+  }
+
   @IsString()
   @IsNotEmpty()
   text: string;
 
-  @IsString()
-  userId?: string | null;
-
-  status?: boolean;
+  // @IsString()
+  // @IsOptional()
+  // userId?: string | null;
 }
