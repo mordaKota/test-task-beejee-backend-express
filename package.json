@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/mordaKota/test-task-beejee-backend-express#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",

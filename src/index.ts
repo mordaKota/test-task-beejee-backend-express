@@ -1,14 +1,13 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import myDataSource from "./config/database";
+import appDataSource from "./config/database";
 
 dotenv.config();
 
 const index: Express = express();
 const port = process.env.PORT;
 
-console.log(123123);
-myDataSource
+appDataSource
   .initialize()
   .then(() => {
     console.log("Data Source has been initialized!")
@@ -22,5 +21,5 @@ index.get('/', (req: Request, res: Response) => {
 });
 
 index.listen(port, () => {
-  console.log(`⚡️[server]: Server [rw is running at https://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
